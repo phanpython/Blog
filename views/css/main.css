@@ -104,3 +104,7 @@ a.btn{
 	position: absolute;
 	bottom: 25px;
 }
+
+.form-control{
+	width: 500%;
+}

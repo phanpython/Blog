@@ -7,25 +7,25 @@
         <form action="/admin/edit" method="POST">
             <input name="id" hidden value="{{id}}">
 
-            <div>
-                <label for="title">Название</label>
-                <input id="title" name="title" value="{{title}}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Название</label>
+                <input id="title" name="title" class="form-control" value="{{title}}">
             </div>
 
-            <div>
-                <label for="text">Описание</label>
-                <textarea id="text" name="text">{{text}}</textarea>
+            <div class="mb-3">
+                <label for="text" class="form-label">Описание</label>
+                <textarea id="text" name="text" class="form-control">{{text}}</textarea>
             </div>
 
-            <div>
-                <label for="image">Картинка</label>
-                <textarea id="image" name="image" placeholder="вставьте URL картинки">{{image}}</textarea>
+            <div class="mb-3">
+                <label for="image" class="form-label">Картинка</label>
+                <textarea id="image" name="image" class="form-control" placeholder="вставьте URL картинки">{{image}}</textarea>
             </div>
 
 
             <div>
-                <button type="reset">Очистить</button>
-                <button>Сохранить</button>
+                <button type="reset" class="btn btn-primary">Очистить</button>
+                <button class="btn btn-primary">Сохранить</button>
             </div>
         </form>
     </div>
