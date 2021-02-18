@@ -83,7 +83,11 @@ app.post("/admin/edit", (request, response) => {
         note.title = editInfo.title;
         note.text = editInfo.text;
     } else {
-        note.id = model.notes[model.notes.length - 1].id + 1;
+        if (model.notes.length){
+            note.id = model.notes[model.notes.length - 1].id + 1;
+        } else {
+            note.id = 1;
+        } 
         note.title = editInfo.title;
         note.text = editInfo.text;
         note.image = editInfo.image;
