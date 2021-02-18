@@ -15,6 +15,40 @@ app.use(express.static(__dirname + '/views'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post("/admin/edit", (request, response) => {
+    const editInfo = request.body;
+    if (!editInfo) response.redirect("/");
+
+    editInfo.id = Number(editInfo.id);
+
+    const file = fs.readFileSync("./data/notes.json");
+    const model = JSON.parse(file);
+    const notes = model.notes.filter(x => x.id == editInfo.id);
+    let note = {};
+    if (notes.length > 0) {
+        note = notes[0];
+        note.image = editInfo.image;
+        note.title = editInfo.title;
+        note.text = editInfo.text;
+    } else {
+        if (model.notes.length){
+            note.id = model.notes[model.notes.length - 1].id + 1;
+        } else {
+            note.id = 1;
+        } 
+        note.title = editInfo.title;
+        note.text = editInfo.text;
+        note.image = editInfo.image;
+
+        model.notes.push(note);
+    }
+
+    const json = JSON.stringify(model);
+    fs.writeFileSync("./data/notes.json", json);
+
+    response.redirect("/");
+});
+
 app.use("/admin", (request, response, next) => {
     const user = request.query;
 
@@ -67,39 +101,6 @@ app.get("/admin/add", (request, response) => {
     response.render("edit-info", note);
 });
 
-app.post("/admin/edit", (request, response) => {
-    const editInfo = request.body;
-    if (!editInfo) response.redirect("/");
-
-    editInfo.id = Number(editInfo.id);
-
-    const file = fs.readFileSync("./data/notes.json");
-    const model = JSON.parse(file);
-    const notes = model.notes.filter(x => x.id == editInfo.id);
-    let note = {};
-    if (notes.length > 0) {
-        note = notes[0];
-        note.image = editInfo.image;
-        note.title = editInfo.title;
-        note.text = editInfo.text;
-    } else {
-        if (model.notes.length){
-            note.id = model.notes[model.notes.length - 1].id + 1;
-        } else {
-            note.id = 1;
-        } 
-        note.title = editInfo.title;
-        note.text = editInfo.text;
-        note.image = editInfo.image;
-
-        model.notes.push(note);
-    }
-
-    const json = JSON.stringify(model);
-    fs.writeFileSync("./data/notes.json", json);
-
-    response.redirect("/");
-});
 
 app.get("/admin/delete/:id", (request, response) => {
     let id = request.params.id;
